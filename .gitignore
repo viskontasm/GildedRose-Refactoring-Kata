@@ -1,5 +1,8 @@
-bin
-obj
-*.sln.DotSettings.user
-.vs
 .idea
+*.iml
+target/
+
+.classpath
+.project
+bin/
+.settings/
