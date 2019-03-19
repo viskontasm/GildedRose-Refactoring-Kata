@@ -5,9 +5,6 @@ import com.gildedrose.Item;
 public class RegularItem {
 
     public void updateItem(Item item) {
-        if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            return;
-        }
         updateQuality(item);
         updateSellIn(item);
         if (item.sellIn < 0) {
@@ -16,28 +13,14 @@ public class RegularItem {
     }
 
     protected void updateQuality(Item item) {
-        if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-            increaseQuality(item);
-            if (item.sellIn < 11) {
-                increaseQuality(item);
-            }
-            if (item.sellIn < 6) {
-                increaseQuality(item);
-            }
-        } else {
-            decreaseQuality(item);
-        }
+        decreaseQuality(item);
     }
 
     protected void updateQualityAfterSellIn(Item item) {
-        if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-            item.quality = 0;
-        } else {
-            decreaseQuality(item);
-        }
+        decreaseQuality(item);
     }
 
-    private void updateSellIn(Item item) {
+    protected void updateSellIn(Item item) {
         item.sellIn = item.sellIn - 1;
     }
 
