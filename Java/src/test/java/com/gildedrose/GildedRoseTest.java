@@ -2,12 +2,29 @@ package com.gildedrose;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.stream.IntStream;
 
 public class GildedRoseTest {
+
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
+
+
+    @Before
+    public void setUp() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @After
+    public void restoreStreams() {
+        System.setOut(originalOut);
+    }
 
     @Test
     public void foo() {
@@ -109,37 +126,20 @@ public class GildedRoseTest {
     public void backstage_passes_when_sellin_less_11_and_above_5_quality_inscreases_by_2() {
         Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 10, 0) };
         GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(2, app.items[0].quality);
-        app.updateQuality();
-        assertEquals(4, app.items[0].quality);
-        app.updateQuality();
-        assertEquals(6, app.items[0].quality);
-        app.updateQuality();
-        assertEquals(8, app.items[0].quality);
-        app.updateQuality();
-        assertEquals(10, app.items[0].quality);
-        app.updateQuality();
-        assertNotEquals(12, app.items[0].quality);
-        IntStream.range(0, 2).forEach(i -> app.updateQuality());
+        IntStream.range(1, 6).forEach(i -> {
+            app.updateQuality();
+            assertEquals(i*2, app.items[0].quality);
+        });
     }
 
     @Test
     public void backstage_passes_when_sellin_less_6_quality_increases_by_3() {
         Item[] items = new Item[] { new Item("Backstage passes to a TAFKAL80ETC concert", 5, 0) };
         GildedRose app = new GildedRose(items);
-        app.updateQuality();
-        assertEquals(3, app.items[0].quality);
-        app.updateQuality();
-        assertEquals(6, app.items[0].quality);
-        app.updateQuality();
-        assertEquals(9, app.items[0].quality);
-        app.updateQuality();
-        assertEquals(12, app.items[0].quality);
-        app.updateQuality();
-        assertEquals(15, app.items[0].quality);
-        app.updateQuality();
-        assertNotEquals(18, app.items[0].quality);
+        IntStream.range(1, 6).forEach(i -> {
+            app.updateQuality();
+            assertEquals(i*3, app.items[0].quality);
+        });
     }
 
     @Test
@@ -172,5 +172,15 @@ public class GildedRoseTest {
         GildedRose app = new GildedRose(items);
         app.updateQuality();
         assertEquals(-1, app.items[0].sellIn);
+    }
+
+    @Test
+    public void golden_master_test() {
+        TextTestFixture test = new TextTestFixture();
+        test.printOutput(new String[] {"19"});
+
+        String expectedOutput = test.readFromFile("golden-master-sample.txt");
+
+        assertEquals(expectedOutput, outContent.toString());
     }
 }
