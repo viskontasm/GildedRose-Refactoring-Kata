@@ -161,7 +161,7 @@ public class GildedRoseTest {
         Item item = new Item("Conjured Mana Cake", 1, 3);
         GildedRose app = new GildedRose();
         app.updateQuality(item);
-        assertEquals(2, item.quality); //TODO fix this test
+        assertEquals(1, item.quality); //TODO fix this test
     }
 
     @Test
