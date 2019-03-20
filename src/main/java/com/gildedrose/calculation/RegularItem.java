@@ -4,10 +4,14 @@ import com.gildedrose.Item;
 
 public class RegularItem {
 
+    protected GeneralRules generalRules;
+    private static final int DEFAULT_THRESHOLD = 0;
+
     public void updateItem(Item item) {
+        generalRules = new GeneralRules();
         updateQuality(item);
         updateSellIn(item);
-        if (item.sellIn < 0) {
+        if (generalRules.isBellowSellInThreshold(item, DEFAULT_THRESHOLD)) {
             updateQualityAfterSellIn(item);
         }
     }
@@ -25,13 +29,13 @@ public class RegularItem {
     }
 
     protected void increaseQuality(Item item) {
-        if (item.quality < 50) {
+        if (generalRules.isBelowMaxQuality(item)) {
             item.quality = item.quality + 1;
         }
     }
 
     protected void decreaseQuality(Item item) {
-        if (item.quality > 0) {
+        if (generalRules.isAboveMinQuality(item)) {
             item.quality = item.quality - 1;
         }
     }
