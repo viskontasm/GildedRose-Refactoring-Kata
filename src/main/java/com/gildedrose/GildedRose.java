@@ -1,11 +1,13 @@
 package com.gildedrose;
 
 import com.gildedrose.calculation.*;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-class GildedRose {
+@Component
+public class GildedRose {
 
     private Map<String, RegularItem> itemList = new HashMap<>();
 
@@ -17,7 +19,8 @@ class GildedRose {
     }
 
     public void updateQuality(Item item) {
-        RegularItem regularItem = itemList.get(item.name) == null ?  new RegularItem() : itemList.get(item.name);
+        RegularItem regularItem = itemList.get(item.name) == null ?
+                new RegularItem() : itemList.get(item.name);
         regularItem.updateItem(item);
     }
 }

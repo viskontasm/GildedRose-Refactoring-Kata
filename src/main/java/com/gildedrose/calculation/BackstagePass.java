@@ -9,10 +9,10 @@ public class BackstagePass extends RegularItem{
 
     protected void updateQuality(Item item) {
         increaseQuality(item);
-        if (item.sellIn < THRESHOLD_11) {
+        if (generalRules.isBellowSellInThreshold(item, THRESHOLD_11)) {
             increaseQuality(item);
         }
-        if (item.sellIn < THRESHOLD_6) {
+        if (generalRules.isBellowSellInThreshold(item, THRESHOLD_6)) {
             increaseQuality(item);
         }
     }
